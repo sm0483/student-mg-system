@@ -1,0 +1,24 @@
+import IRoute from "../shared/IRoute.shared";
+import { Router } from "express";
+import AdminController from "./controller/admin/admin.controller";
+import StudentController from "./controller/student/student.controller";
+import verifyAccessToken from "@/shared/token.middleware";
+
+
+export default class UserRoute implements IRoute {
+  public router: Router = Router();
+  public path: string = "/users";
+  private adminController:AdminController;
+  private studentController:StudentController;
+
+  constructor() {
+    this.adminController=new AdminController();
+    this.studentController=new StudentController();
+    this.initRoutes();
+  }
+
+  private initRoutes = () => {
+    this.router.get(`${this.path}/google`, );
+
+  };
+}
