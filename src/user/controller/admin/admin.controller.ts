@@ -37,6 +37,11 @@ export default class AdminController {
 
   public addStudent = async (req: Request, res: Response) => {
     const error = this.studentValidator.validate(req.body);
+    const email = req.body.email;
+    const isEmailPresent=await StudentModel.find({email:email});
+    if(isEmailPresent.length>0){
+      throw new CustomError("Email already present", StatusCodes.BAD_REQUEST);
+    }
     if (error) throw new CustomError(error, StatusCodes.BAD_REQUEST);
     await StudentModel.create(req.body);
     return res

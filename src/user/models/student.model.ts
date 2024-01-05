@@ -14,7 +14,6 @@ const studentSchema = new mongoose.Schema<IStudent>({
   password: {
     type: String,
     required: true,
-    unique: true,
   },
   department: {
     type: String,
