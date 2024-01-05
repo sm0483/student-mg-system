@@ -1,21 +1,34 @@
 import IRoute from "../shared/IRoute.shared";
 import { Router } from "express";
 import TaskController from "./controller/task.controller";
-import verifyAccessToken from "@/shared/token.middleware";
-
+import verifyAccessTokenAdmin from "../shared/admin.middleware";
+import verifyAccessTokenStudent from "../shared/token.middleware";
 
 export default class TaskRoute implements IRoute {
   public router: Router = Router();
   public path: string = "/tasks";
-  private adminController:TaskController;
+  private taskController: TaskController;
 
   constructor() {
-    this.adminController=new TaskController();
+    this.taskController = new TaskController();
     this.initRoutes();
   }
 
   private initRoutes = () => {
-    this.router.get(`${this.path}/google`, );
-
+    this.router.post(
+      `/admin/tasks`,
+      verifyAccessTokenAdmin,
+      this.taskController.createTask
+    );
+    this.router.get(
+      `/students/tasks`,
+      verifyAccessTokenStudent,
+      this.taskController.getAllTasks
+    );
+    this.router.put(
+      `/admin/tasks/:taskId`,
+      verifyAccessTokenStudent,
+      this.taskController.editTask
+    );
   };
 }
